@@ -11,6 +11,17 @@ var console = {
     log: function(message) {
         Trace(message);
     }
+};
+
+function pickRandomProperty(obj) {
+    var result;
+    var count = 0;
+    for (var prop in obj) {
+        if (Math.random() < 1/++count) {
+            result = prop;
+        }
+    }
+    return result;
 }
 
 function HandleMIDI(event) {
@@ -18,11 +29,11 @@ function HandleMIDI(event) {
     event.send();
 
     var info = GetTimingInfo();
-    var selected_mode = GetParameter("Mode"); 
+    var selected_mode = GetParameter('Mode'); 
 
     var modes = {
         0: {
-            name: "Ionian",
+            name: 'Ionian',
             positions: {
                 1: {
                     pitch_value: 1
@@ -51,7 +62,7 @@ function HandleMIDI(event) {
             }
         },
         1: {
-            name: "Dorian",
+            name: 'Dorian',
             positions: {
                 1: {
                     pitch_value: 1
@@ -80,7 +91,7 @@ function HandleMIDI(event) {
             }
         },
         2: {
-            name: "Phrygian",
+            name: 'Phrygian',
             positions: {
                 1: {
                     pitch_value: 1
@@ -109,7 +120,7 @@ function HandleMIDI(event) {
             }
         },
         3: {
-            name: "Lydian",
+            name: 'Lydian',
             positions: {
                 1: {
                     pitch_value: 1
@@ -138,7 +149,7 @@ function HandleMIDI(event) {
             }
         },
         4: {
-            name: "Mixolydian",
+            name: 'Mixolydian',
             positions: {
                 1: {
                     pitch_value: 1
@@ -167,7 +178,7 @@ function HandleMIDI(event) {
             }
         },
         5: {
-            name: "Aeolian",
+            name: 'Aeolian',
             positions: {
                 1: {
                     pitch_value: 1
@@ -196,7 +207,7 @@ function HandleMIDI(event) {
             }
         },
         6: {
-            name: "Locrian",
+            name: 'Locrian',
             positions: {
                 1: {
                     pitch_value: 1
@@ -227,7 +238,7 @@ function HandleMIDI(event) {
     };
 
     if (event instanceof NoteOn) {
-        for (var position in modes[selected_mode].positions) {
+        for (var positionOn in modes[selected_mode].positions) {
             if (position != 1) {
                 modes[selected_mode].positions[position].on = new NoteOn;
                 modes[selected_mode].positions[position].on.pitch = event.pitch + modes[selected_mode].positions[position].pitch_value;
@@ -237,7 +248,7 @@ function HandleMIDI(event) {
     }
 
     if (event instanceof NoteOff) {
-        for (var position in modes[selected_mode].positions) {
+        for (var positionOff in modes[selected_mode].positions) {
             if (position != 1) {
                 modes[selected_mode].positions[position].off = new NoteOff;
                 modes[selected_mode].positions[position].off.pitch = event.pitch + modes[selected_mode].positions[position].pitch_value;
@@ -248,4 +259,4 @@ function HandleMIDI(event) {
 
 }
 
-var PluginParameters = [{name:"Mode", type:"menu", valueStrings:["Ionian", "Dorian", "Phrygian", "Lydian", "Mixolydian", "Aeolian", "Locrian"]}];
+var PluginParameters = [{name: 'Mode', type: 'menu', valueStrings: ['Ionian', 'Dorian', 'Phrygian', 'Lydian', 'Mixolydian', 'Aeolian', 'Locrian']}];
